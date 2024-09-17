@@ -1,0 +1,93 @@
+body {
+    margin: 0;
+    background-color: #000000; /* Black background color */
+    font-family: 'Arial', sans-serif; /* Choose a suitable font family */
+  }
+  
+  .guess-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .guess-card {
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  h2 {
+    color: #ffffff; /* White text color */
+  }
+  
+  .input-group {
+    margin-bottom: 15px;
+    position: relative;
+  }
+  
+  i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10px;
+    color: #888888; /* Grayish icon color */
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #333333; /* Dark border color */
+    border-radius: 5px;
+    outline: none;
+    color: #ffffff; /* White text color */
+    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+  }
+  
+  .btn {
+    margin-top: 10px;
+    background-color: #3498db; /* Blue button background color */
+    color: #ffffff; /* White text color */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .btn:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+  }
+  
+  /* home.css */
+
+.error-message {
+    color: #ff0000; /* Red text color */
+    margin-top: 5px; /* Adjust the margin as needed */
+  }
+
+.buy-tickets-section {
+  margin-top: 20px; /* Adjust as needed for spacing between the form and the button */
+  text-align: center; /* Center the button */
+}
+
+.buy-tickets-btn {
+  background-color: #000000; /* Grey color */
+  color: #fff; /* White text color */
+  padding: 10px 20px; /* Adjust padding as needed */
+  border: none;
+  border-radius: 5px; /* Rounded corners */
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.buy-tickets-btn:hover {
+  background-color: #000000; /* Darker grey on hover */
+}
+  
+  

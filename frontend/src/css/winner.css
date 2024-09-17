@@ -1,0 +1,41 @@
+/* winner.css */
+
+body {
+    margin: 0;
+    background-color: #000000; /* Black background color */
+    font-family: 'Arial', sans-serif; /* Choose a suitable font family */
+    color: #ffffff; /* White text color */
+  }
+  
+  .winner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .winner-card {
+    background-color: #0ac91a72; /* Red background color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  h2 {
+    color: #ffffff; /* White text color */
+  }
+  
+  .winbtn {
+    background-color: #525252; /* Blue button background color */
+    color: #ffffff; /* White text color */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .winbtn:hover {
+    background-color: #000000; /* Darker blue on hover */
+  }

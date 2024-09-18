@@ -19,10 +19,10 @@ function Home() {
   const fetchLeaderboard = async () => {
     try {
       const response = await fetch("/api/leaderboard/");  // Assuming this is the API endpoint for the leaderboard
-      console.log(response)
+      // console.log(response)
       if (response.ok) {
         const data = await response.json();
-        console.log(data)
+        // console.log(data)
         setLeaderboard(data);  // Update leaderboard state
       } else {
         console.error("Failed to fetch leaderboard data.");

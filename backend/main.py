@@ -4,7 +4,7 @@ from flask_restx import Api
 from backend.models import Leaderboard
 from backend.exts import db
 from flask_jwt_extended import JWTManager
-from backend.leaderboard import leaderboard_ns, Leaderboard, LeaderboardList, LeaderboardByUsername
+from backend.leaderboard import leaderboard_ns, LeaderboardList
 from dotenv import load_dotenv
 from backend.config import DevConfig
 
@@ -58,6 +58,5 @@ def create_app(config=DevConfig):
     #     return response
     
     api.add_resource(LeaderboardList, '/api/leaderboard/')
-    api.add_resource(LeaderboardByUsername, '/api/leaderboard/<string:username>/')
     
     return app

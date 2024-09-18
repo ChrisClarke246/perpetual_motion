@@ -55,7 +55,7 @@ function Play() {
     window.updateReactScore = async (gameScore) => {
         setScore(gameScore); // Update the score in the React state
 
-        console.log(`${user} scored ${gameScore}`);
+        // console.log(`${user} scored ${gameScore}`);
 
         try {
           const response = await fetch('/api/leaderboard/', {
@@ -67,7 +67,7 @@ function Play() {
           });
       
           const data = await response.json();
-          console.log('Score submitted:', data);
+          // console.log('Score submitted:', data);
         } catch (error) {
           console.error('Error submitting score:', error);
       }

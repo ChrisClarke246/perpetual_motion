@@ -1,11 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import CryptoJS from 'crypto-js';
 
 import "../css/play.css";
-
-// Secret key used for generating HMAC (should match the server's secret)
-const SECRET_KEY = process.env.HMAC_SECRET_KEY;
 
 function Play() {
   const [score, setScore] = useState(0);
@@ -55,39 +51,26 @@ function Play() {
     }
   };
 
-
-  const generateHmac = (username, score) => {
-    const message = `${username}:${score}`;
-    return CryptoJS.HmacSHA256(message, SECRET_KEY).toString(CryptoJS.enc.Hex);
-  };
-
   useEffect(() => {
     window.updateReactScore = async (gameScore) => {
         setScore(gameScore); // Update the score in the React state
 
-        const hmac = generateHmac(user, gameScore); // Use the updated score value
         console.log(`${user} scored ${gameScore}`);
 
         try {
-            // Send the data along with the HMAC to your backend API using fetch
-            const response = await fetch('/api/leaderboard/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'HMAC': hmac,  // Include HMAC in headers
-                },
-                body: JSON.stringify({ username: user, score: gameScore }), // Send username and updated score
-            });
-
-            if (!response.ok) {
-                throw new Error(`Error: ${response.statusText}`);
-            }
-
-            const responseData = await response.json();
-            console.log('Success:', responseData);
+          const response = await fetch('/api/leaderboard/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username: user, score: gameScore }) // Ensure 'username' matches what the backend expects
+          });
+      
+          const data = await response.json();
+          console.log('Score submitted:', data);
         } catch (error) {
-            console.error('Error submitting score:', error);
-        }
+          console.error('Error submitting score:', error);
+      }
     };
 
     return () => {

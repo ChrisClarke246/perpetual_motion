@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from flask_cors import CORS
 from flask_restx import Api
-from backend.models import Winners
+from backend.models import Leaderboard
 from backend.exts import db
 from flask_jwt_extended import JWTManager
 from backend.leaderboard import leaderboard_ns, Leaderboard, LeaderboardList, LeaderboardByUsername
@@ -57,7 +57,7 @@ def create_app(config=DevConfig):
     #     db.session.commit()
     #     return response
     
-    api.add_resource(LeaderboardList, '/api/winner/')
-    api.add_resource(LeaderboardByUsername, '/api/winner/<string:username>/')
+    api.add_resource(LeaderboardList, '/api/leaderboard/')
+    api.add_resource(LeaderboardByUsername, '/api/leaderboard/<string:username>/')
     
     return app

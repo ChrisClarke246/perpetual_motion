@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import "../css/home.css";
 import { useNavigate } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
-import React, { useState } from 'react';
 
 function Home() {
   sessionStorage.removeItem("alreadyReloaded");
@@ -20,11 +19,11 @@ function Home() {
   const fetchLeaderboard = async () => {
     try {
       const response = await fetch("/api/leaderboard/");  // Assuming this is the API endpoint for the leaderboard
+      console.log(response)
       if (response.ok) {
         const data = await response.json();
-        // Sort the leaderboard by score in descending order and keep only top 5
-        const sortedData = data.sort((a, b) => b.score - a.score).slice(0, 5);
-        setLeaderboard(sortedData);  // Update leaderboard state
+        console.log(data)
+        setLeaderboard(data);  // Update leaderboard state
       } else {
         console.error("Failed to fetch leaderboard data.");
       }
@@ -107,7 +106,7 @@ function Home() {
             <tbody>
               {leaderboard.slice(0, 5).map((entry, index) => (
                 <tr key={index}>
-                  <td>{entry.instagram}</td>
+                  <td>{entry.username}</td>
                   <td>{entry.score}</td>
                 </tr>
               ))}

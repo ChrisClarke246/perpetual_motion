@@ -28,4 +28,10 @@ class Leaderboard(db.Model):
         if score is not None:
             self.score = score
         db.session.commit()
-        
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "score": self.score
+        }

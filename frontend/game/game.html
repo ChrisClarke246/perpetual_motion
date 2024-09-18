@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Game</title>
+    <style>
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background-color: #000; /* Default background color */
+        }
+    </style>
+	
+	<!-- Link the title image for both favicon and apple touch icon -->
+    <link rel="icon" href="assets/ui/title.png" type="image/png">
+    <link rel="apple-touch-icon" href="assets/ui/title.png">
+		
+</head>
+<body>
+    <canvas id="gameCanvas" width="768" height="576"></canvas>
+
+
+	<!-- Entity and object definitions should come first -->
+	<script src="src/entity/entity.js"></script>
+	<script src="src/entity/player.js"></script>
+	<script src="src/entity/shark.js"></script>
+	<script src="src/entity/enemy.js"></script>
+	<script src="src/entity/bird.js"></script>
+
+	<!-- Tile and object classes (tiles, objects like bottle, donut) -->
+	<script src="src/tile/tile.js"></script>
+	<script src="src/tile/tile_manager.js"></script>
+
+	<script src="src/object/super_object.js"></script>
+	<script src="src/object/obj_bottle.js"></script>
+	<script src="src/object/obj_donut.js"></script>
+	<script src="src/object/obj_shoe.js"></script>
+
+	<!-- Game logic components, utilities, and handlers (key, collision, sound) -->
+	<script src="src/main/key_handler.js"></script>
+	<script src="src/main/ui.js"></script>
+	<script src="src/main/sound.js"></script>
+	<script src="src/main/asset_setter.js"></script>
+	<script src="src/main/collision_checker.js"></script>
+
+	<!-- The main game logic should be loaded last -->
+	<script src="src/main/game.js"></script> <!-- Game loop and game logic -->
+	<script src="src/main/main.js"></script> <!-- Main entry point -->
+
+	
+</body>
+</html>
+

@@ -1,16 +1,32 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "../css/home.css";
 import { useNavigate } from "react-router-dom";
-import ReCAPTCHA from 'react-google-recaptcha';
+import ReCAPTCHA from "react-google-recaptcha";
 
 function Home() {
+  sessionStorage.removeItem("alreadyReloaded");
+
   const captchaRef = useRef(null);
   localStorage.clear();
   const [ig, setIG] = useState("");
   const [errormsg, setErrorMessage] = useState("");
+  const [leaderboard, setLeaderboard] = useState([]);
 
   // React Router navigation hook
   const navigate = useNavigate();
+
+  // Simulate fetching leaderboard data
+  useEffect(() => {
+    // You could replace this with a fetch from an API if needed
+    const dummyLeaderboard = [
+      { instagram: "@user1", score: 150 },
+      { instagram: "@user2", score: 140 },
+      { instagram: "@user3", score: 130 },
+      { instagram: "@user4", score: 120 },
+      { instagram: "@user5", score: 110 },
+    ];
+    setLeaderboard(dummyLeaderboard);
+  }, []);
 
   // Function to handle form submission
   const handleClick = (e) => {
@@ -19,7 +35,7 @@ function Home() {
     setErrorMessage("");
 
     if (!ig.includes("@")) {
-      setErrorMessage("Enter a valid ig username (with an @)");
+      setErrorMessage("Enter a valid IG username (with an @)");
       // Reset input fields
       setIG("");
       return;
@@ -31,6 +47,72 @@ function Home() {
       setErrorMessage("Please complete the reCAPTCHA.");
       return;
     }
+
+    // You would normally verify the captcha and handle the IG data
+    localStorage.setItem("user", JSON.stringify(ig));
+    navigate("/play/");
+
+    captchaRef.current.reset();
+  };
+
+  return (
+    <div className="guess-container">
+      <div className="guess-card">
+        <h2>Perpetual Motion</h2>
+        <form onSubmit={handleClick}>
+          <div className="input-group">
+            <input
+              type="text"
+              placeholder="@Instagram_Username"
+              value={ig}
+              onChange={(e) => setIG(e.target.value)}
+              required
+            />
+            <p>** You will not be eligible for any giveaways unless you enter a valid Instagram Username **</p>
+          </div>
+          {errormsg && <p className="error-message">{errormsg}</p>}
+          <div className="captcha">
+            <ReCAPTCHA
+              theme="dark"
+              size="small"
+              render="explicit"
+              sitekey={import.meta.env.VITE_REACT_APP_SITE_KEY || ""}
+              ref={captchaRef}
+            />
+          </div>
+          <button type="submit" className="btn">
+            Play
+          </button>
+        </form>
+
+        {/* Leaderboard section under the form */}
+        <div className="leaderboard-card">
+          <h3>Leaderboard</h3>
+          <table className="leaderboard-table">
+            <thead>
+              <tr>
+                <th>Instagram</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              {leaderboard.slice(0, 5).map((entry, index) => (
+                <tr key={index}>
+                  <td>{entry.instagram}</td>
+                  <td>{entry.score}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Home;
+
+
 
     // Verify token
     // fetch(`/api/verify-captcha/${token}/`, {
@@ -53,9 +135,9 @@ function Home() {
     //       // Captcha verification successful, continue with your logic
     //       console.log("Captcha verification successful");
 
-    //       // Save the IG username and navigate to the winner page
+    //       // Save the IG username and navigate to the play page
     //       localStorage.setItem("user", JSON.stringify(ig));
-    //       navigate("/winner/");
+    //       navigate("/play/");
     //     } else {
     //       // Captcha verification unsuccessful
     //       console.log("Captcha verification unsuccessful");
@@ -67,45 +149,3 @@ function Home() {
     //     console.error("Error during captcha verification:", error);
     //     setErrorMessage("An error occurred during captcha verification");
     //   });
-
-    localStorage.setItem("user", JSON.stringify(ig));
-    navigate("/winner/");
-
-    captchaRef.current.reset();
-  };
-
-  return (
-    <div className="guess-container">
-      <div className="guess-card">
-        <h2>Perpetual Motion</h2>
-        <form onSubmit={handleClick}>
-          <div className="input-group">
-            <input
-              type="text"
-              placeholder="@Instagram_Username"
-              value={ig}
-              onChange={(e) => setIG(e.target.value)}
-              required
-            />
-          </div>
-          {errormsg && <p className="error-message">{errormsg}</p>}
-          <div className="captcha">
-            <ReCAPTCHA
-              theme="dark"
-              size="small"
-              render="explicit"
-              sitekey={import.meta.env.VITE_REACT_APP_SITE_KEY || ""}
-              ref={captchaRef}
-            />
-          </div>
-          <button type="submit" className="btn">
-            Play
-          </button>
-        </form>
-      </div>
-    </div>
-  );
-}
-
-export default Home;
-

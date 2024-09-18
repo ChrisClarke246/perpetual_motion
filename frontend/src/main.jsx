@@ -8,16 +8,14 @@ import {
 } from "react-router-dom";
 
 import Home from "./js/home.jsx";
-import Loser from "./js/loser.jsx";
-import Winner from "./js/winner.jsx";
+import Play from "./js/play.jsx";
 import ResourceError from "./js/ResourceError.jsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" errorElement={<ResourceError />}>
         <Route element={<Home />} index />
-        <Route path="loser/" element={<Loser/>} />
-        <Route path="winner/" element={<Winner/>} />
+        <Route path="play/" element={<Play/>} />
       </Route>
   )
 );

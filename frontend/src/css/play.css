@@ -1,4 +1,4 @@
-/* winner.css */
+/* play.css */
 
 body {
     margin: 0;
@@ -7,27 +7,28 @@ body {
     color: #ffffff; /* White text color */
   }
   
-  .winner-container {
+  .play-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
   }
   
-  .winner-card {
-    background-color: #0ac91a72; /* Red background color */
+  .play-card {
+    background-color: #16161672; /* Red background color */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     padding: 20px;
     border-radius: 8px;
     text-align: center;
   }
-  
-  h2 {
-    color: #ffffff; /* White text color */
+
+  .game {
+    margin-bottom: 10px; /* Space between the game and back button */
   }
   
   .winbtn {
-    background-color: #525252; /* Blue button background color */
+    margin-top: 10px; /* Add top margin to ensure space between the iframe and button */
+    background-color: #525252; /* Button background color */
     color: #ffffff; /* White text color */
     padding: 10px 20px;
     border: none;
@@ -37,5 +38,6 @@ body {
   }
   
   .winbtn:hover {
-    background-color: #000000; /* Darker blue on hover */
+    background-color: #000000; /* Darker background on hover */
   }
+  

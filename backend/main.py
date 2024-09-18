@@ -4,7 +4,7 @@ from flask_restx import Api
 from backend.models import Winners
 from backend.exts import db
 from flask_jwt_extended import JWTManager
-from backend.winners import winner_ns, Winner, WinnerById, WinnerByCode
+from backend.leaderboard import leaderboard_ns, Leaderboard, LeaderboardList, LeaderboardByUsername
 from dotenv import load_dotenv
 from backend.config import DevConfig
 
@@ -23,7 +23,7 @@ def create_app(config=DevConfig):
     db.init_app(app)
     JWTManager(app)
     api = Api(app, doc="/docs")
-    api.add_namespace(winner_ns)
+    api.add_namespace(leaderboard_ns)
 
     app.config['JWT_SECRET_KEY'] = 'secret_key_here'  # Change this to a secure secret key
     app.config['JWT_TOKEN_LOCATION'] = ['headers']
@@ -57,8 +57,7 @@ def create_app(config=DevConfig):
     #     db.session.commit()
     #     return response
     
-    api.add_resource(Winner, '/api/winner/')
-    api.add_resource(WinnerById, '/api/winner/<int:winid>/')
-    api.add_resource(WinnerByCode, '/api/winner/code/<int:code>/')
+    api.add_resource(LeaderboardList, '/api/winner/')
+    api.add_resource(LeaderboardByUsername, '/api/winner/<string:username>/')
     
     return app

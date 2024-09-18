@@ -38,7 +38,9 @@ export class GamePanel {
             THREE: 'THREE'
         };
         this.gamePhase = this.GamePhase.ONE;
-
+		
+		this.scoreSentToReact = false;
+		
         // WORLD SETTINGS
         this.originalMaxWorldCol = 61;
         this.maxWorldRow = 18;
@@ -122,6 +124,7 @@ export class GamePanel {
 	                case this.GameState.SHOW_SCORE:
 	                    this.render();  // Render the score screen
 	                    scoreTimer++;
+						this.sendScoreToReact(); // Send score to React when game state is SHOW_SCORE
 
 	                    if (scoreTimer > this.FPS * 5) {  // Show the score screen for 5 seconds
 	                        scoreTimer = 0;
@@ -229,6 +232,7 @@ export class GamePanel {
     }
 
     restartGame() {
+		this.scoreSentToReact = false;
         this.maxWorldCol = this.originalMaxWorldCol;
         this.worldColOffset = 0; // number of columns removed in infinite scroll
 
@@ -238,4 +242,11 @@ export class GamePanel {
         this.timer = 0;
         this.player.setDefaultValues();
     }
+
+	sendScoreToReact() {
+		if (!this.scoreSentToReact && typeof window.updateReactScore === 'function') {
+		  window.updateReactScore(this.player.score); // Pass score to React
+		  this.scoreSentToReact = true;
+		}
+	}
 }

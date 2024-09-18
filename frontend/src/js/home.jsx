@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import "../css/home.css";
 import { useNavigate } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
+import React, { useState } from 'react';
 
 function Home() {
   sessionStorage.removeItem("alreadyReloaded");
@@ -16,16 +17,24 @@ function Home() {
   const navigate = useNavigate();
 
   // Simulate fetching leaderboard data
+  const fetchLeaderboard = async () => {
+    try {
+      const response = await fetch("/api/leaderboard/");  // Assuming this is the API endpoint for the leaderboard
+      if (response.ok) {
+        const data = await response.json();
+        // Sort the leaderboard by score in descending order and keep only top 5
+        const sortedData = data.sort((a, b) => b.score - a.score).slice(0, 5);
+        setLeaderboard(sortedData);  // Update leaderboard state
+      } else {
+        console.error("Failed to fetch leaderboard data.");
+      }
+    } catch (error) {
+      console.error("Error fetching leaderboard:", error);
+    }
+  };
+
   useEffect(() => {
-    // You could replace this with a fetch from an API if needed
-    const dummyLeaderboard = [
-      { instagram: "@user1", score: 150 },
-      { instagram: "@user2", score: 140 },
-      { instagram: "@user3", score: 130 },
-      { instagram: "@user4", score: 120 },
-      { instagram: "@user5", score: 110 },
-    ];
-    setLeaderboard(dummyLeaderboard);
+    fetchLeaderboard();
   }, []);
 
   // Function to handle form submission
@@ -56,8 +65,8 @@ function Home() {
   };
 
   return (
-    <div className="guess-container">
-      <div className="guess-card">
+    <div className="sign-in-container">
+      <div className="sign-in-card">
         <h2>Perpetual Motion</h2>
         <form onSubmit={handleClick}>
           <div className="input-group">

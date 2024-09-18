@@ -1,22 +1,18 @@
 from backend.exts import db
-from sqlalchemy.dialects.postgresql import JSON
 from flask_login import UserMixin
 
-class Winners(db.Model):
-    __tablename__ = "winners"
-    winid = db.Column(db.Integer, primary_key=True)
-    prize = db.Column(db.String(255), nullable=False)
-    code = db.Column(db.Integer)
-    winner =  db.Column(db.String(255), nullable=True)
+class Leaderboard(db.Model):
+    __tablename__ = "leaderboard"
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(255), nullable=False)
+    score = db.Column(db.Integer)
 
-    def __init__(self, prize, code, winner=None):
-        self.prize = prize
-        self.code = code
-        self.winner = winner
-        db.session.commit()
+    def __init__(self, username, score):
+        self.username = username
+        self.score = score
 
     def __repr__(self):
-        return f"<Winners {self.winid} {self.prize} {self.code} {self.winner}>"
+        return f"<Leaderboard {self.id} {self.username} {self.score}>"
 
     def save(self):
         db.session.add(self)
@@ -26,12 +22,10 @@ class Winners(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-    def update(self, prize=None, code=None, winner=None):
-        if prize is not None:
-            self.prize = prize
-        if code is not None:
-            self.code = code
-        if winner is not None:
-            self.winner = winner 
-
+    def update(self, username=None, score=None):
+        if username is not None:
+            self.username = username
+        if score is not None:
+            self.score = score
         db.session.commit()
+        

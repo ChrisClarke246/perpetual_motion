@@ -19,6 +19,7 @@ export class TileManager {
         ];
         this.currentObstacle = null;
         this.prevObstacle = null;
+		this.lastBridgeSize = 0;
 
         // Power-ups and NPC spawn rates
         this.bottleSpawnRate = 40;
@@ -27,6 +28,8 @@ export class TileManager {
         this.yarkbossSpawnRate = 5;
         this.sharkSpawnRate = 20;
         this.birdSpawnRate = 15;
+		this.anchorSpawnRate = 25;
+		this.smellySpawnRate = 5;
 
         this.random = Math.random;
 
@@ -88,6 +91,7 @@ export class TileManager {
     }
 
     resetMap() {
+		this.lastBridgeSize = 0;
         this.mapTileNum = [];
         this.chasingTimer = 0;
         this.lastChasingTile = 0;
@@ -132,16 +136,20 @@ export class TileManager {
 	        this.bottleSpawnRate = 25;
 	        this.yarkbossSpawnRate = 2;
 	        this.donutSpawnRate = 30;
-	        this.sharkSpawnRate = 10;
+	        this.sharkSpawnRate = 5;
 	        this.shoeSpawnRate = 20;
-	        this.birdSpawnRate = 7;
+	        this.birdSpawnRate = 3;
+			this.anchorSpawnRate = 6;
+			this.smellySpawnRate = 2;
 	    } else if (this.gp.getGamePhase() === this.gp.GamePhase.TWO) {
 	        this.bottleSpawnRate = 30;
 	        this.yarkbossSpawnRate = 3;
 	        this.donutSpawnRate = 40;
-	        this.sharkSpawnRate = 15;
+	        this.sharkSpawnRate = 10;
 	        this.shoeSpawnRate = 25;
 	        this.birdSpawnRate = 10;
+			this.anchorSpawnRate = 12;
+			this.smellySpawnRate = 3;
 	    } else if (this.gp.getGamePhase() === this.gp.GamePhase.ONE) {
 	        this.bottleSpawnRate = 35;
 	        this.yarkbossSpawnRate = 5;
@@ -149,6 +157,8 @@ export class TileManager {
 	        this.sharkSpawnRate = 20;
 	        this.shoeSpawnRate = 30;
 	        this.birdSpawnRate = 15;
+			this.anchorSpawnRate = 25;
+			this.smellySpawnRate = 5;
 	    }
 
 	    // Check if the player is nearing the edge of the current map
@@ -221,6 +231,7 @@ export class TileManager {
 	                        if (size % 2 > 0) {
 	                            size += 1;
 	                        }
+							this.lastBridgeSize = size;
 	                    } else {
 	                        size = this.remainingColsForStruct;
 	                    }
@@ -264,7 +275,13 @@ export class TileManager {
 
 	        if (this.currentObstacle === "enemy" && this.remainingColsForStruct === 1) {
 	            const placeEnemy = Math.floor(Math.random() * this.yarkbossSpawnRate);
-	            if (placeEnemy === 0) {
+				const placeSmelly = Math.floor(Math.random() * this.smellySpawnRate);
+	            if (placeSmelly === 0) {
+	                const x = (this.gp.maxWorldCol - 1) * this.gp.tileSize;
+	                const y = (this.gp.groundRow * this.gp.tileSize) - (this.gp.tileSize / 2); // on the ground
+	                this.gp.aSetter.placeSmelly(x, y);
+	            }
+				else if (placeEnemy === 0) {
 	                const x = (this.gp.maxWorldCol - 1) * this.gp.tileSize;
 	                const y = (this.gp.groundRow * this.gp.tileSize) - (this.gp.tileSize / 2); // slightly offset on the ground
 	                this.gp.aSetter.placeEnemy(x, y);
@@ -291,10 +308,17 @@ export class TileManager {
 
 	        if (this.currentObstacle === "bridge" && height > 0 && this.remainingColsForStruct === 0) {
 	            const placePowerUp = Math.floor(Math.random() * this.shoeSpawnRate);
+				const placeAnchor = Math.floor(Math.random() * this.anchorSpawnRate);
 	            if (placePowerUp === 0) {
 	                const x = (this.gp.maxWorldCol - 1) * this.gp.tileSize;
 	                const y = (this.gp.groundRow - height - 1) * this.gp.tileSize; // on top of the bridge
 	                this.gp.aSetter.placeShoe(x, y);
+	            }
+				if (placeAnchor === 0) {
+	                const x = (this.gp.maxWorldCol - 1) * this.gp.tileSize;
+	                const y = (this.gp.groundRow - height - 1) * this.gp.tileSize; // on top of the bridge
+					const jumpDistance = (this.lastBridgeSize + 1) * this.gp.tileSize;
+					this.gp.aSetter.placeAnchor(x, y, jumpDistance);
 	            }
 	        }
 	    }

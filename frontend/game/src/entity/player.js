@@ -202,6 +202,19 @@ export class Player extends Entity {
 	            }
 	            break;
 
+			case "Smell":
+				this.effect = "Drunk";
+				this.gp.aSetter.removeObj(index);
+
+				if (this.gp.getGamePhase() === this.gp.GamePhase.THREE) {
+					this.effectTime = 7;
+				} else if (this.gp.getGamePhase() === this.gp.GamePhase.TWO) {
+					this.effectTime = 8;
+				} else if (this.gp.getGamePhase() === this.gp.GamePhase.ONE) {
+					this.effectTime = 10;
+				}
+				break;
+
 	        case "Shoe":
 	            this.effect = "Speed";
 	            this.gp.aSetter.removeObj(index);

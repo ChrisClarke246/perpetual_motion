@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../css/home.css";
 import { useNavigate } from "react-router-dom";
-import ReCAPTCHA from "react-google-recaptcha";
+//import ReCAPTCHA from "react-google-recaptcha";
 
 function Home() {
   sessionStorage.removeItem("alreadyReloaded");
 
   const usernameRegex = /^@[a-zA-Z0-9._]{1,30}$/;
-  const captchaRef = useRef(null);
+  // const captchaRef = useRef(null);
   localStorage.clear();
   const [ig, setIG] = useState("");
   const [errormsg, setErrorMessage] = useState("");
@@ -56,18 +56,18 @@ function Home() {
       return;
     }
 
-    const token = captchaRef.current.getValue();
+    // const token = captchaRef.current.getValue();
 
-    if (!token) {
-      setErrorMessage("Please complete the reCAPTCHA.");
-      return;
-    }
+    // if (!token) {
+    //   setErrorMessage("Please complete the reCAPTCHA.");
+    //   return;
+    // }
 
     // You would normally verify the captcha and handle the IG data
     localStorage.setItem("user", JSON.stringify(ig));
     navigate("/play/");
 
-    captchaRef.current.reset();
+    // captchaRef.current.reset();
   };
 
   return (
@@ -84,7 +84,7 @@ function Home() {
               required
             />
             <p>** You will not be eligible for any giveaways unless you enter a valid Instagram Username **</p>
-          </div>
+          {/* </div>
           {errormsg && <p className="error-message">{errormsg}</p>}
           <div className="captcha">
             <ReCAPTCHA
@@ -93,7 +93,7 @@ function Home() {
               render="explicit"
               sitekey={import.meta.env.VITE_REACT_APP_SITE_KEY || ""}
               ref={captchaRef}
-            />
+            /> */}
           </div>
           <button type="submit" className="btn">
             Play

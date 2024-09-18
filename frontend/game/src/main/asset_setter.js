@@ -1,10 +1,13 @@
 import {OBJ_Bottle} from './../object/obj_bottle.js';
 import {OBJ_Shoe} from './../object/obj_shoe.js';
 import {OBJ_Donut} from './../object/obj_donut.js';
+import { OBJ_Smell } from '../object/obj_smell.js';
 
 import { Shark } from '../entity/shark.js';
 import { Bird } from '../entity/bird.js';
 import { Enemy } from '../entity/enemy.js';
+import { Anchor } from '../entity/anchor.js';
+import { Smelly } from '../entity/smelly.js';
 
 export class AssetSetter {
     constructor(gamePanel) {
@@ -19,6 +22,19 @@ export class AssetSetter {
         for (let i = 0; i < this.gp.maxNumNpcs; i++) {
             this.gp.freeNpcIdx.push(i);  // Add index to the queue
         }
+    }
+
+    placeSmell(x, y) {
+        if (this.gp.freeObjectIdx.length === 0) {
+            return;  // No free slots available
+        }
+
+        // Get the first free index
+        const index = this.gp.freeObjectIdx.shift();  // Get and remove the first free index
+        this.gp.obj[index] = new OBJ_Smell();
+        this.gp.obj[index].worldX = x;
+        this.gp.obj[index].worldY = y;
+        this.gp.obj[index].collision = false;
     }
 
     placeBottle(x, y) {
@@ -93,6 +109,24 @@ export class AssetSetter {
 
         const index = this.gp.freeNpcIdx.shift();  // Get and remove the first free index
         this.gp.npcs[index] = new Bird(this.gp, x, y, flightDistance, index);
+    }
+
+    placeAnchor(x, y, jumpDistance) {
+        if (this.gp.freeNpcIdx.length === 0) {
+            return;  // No free slots available
+        }
+
+        const index = this.gp.freeNpcIdx.shift();  // Get and remove the first free index
+        this.gp.npcs[index] = new Anchor(this.gp, x, y, jumpDistance, index);
+    }
+
+    placeSmelly(x, y) {
+        if (this.gp.freeNpcIdx.length === 0) {
+            return;  // No free slots available
+        }
+
+        const index = this.gp.freeNpcIdx.shift();  // Get and remove the first free index
+        this.gp.npcs[index] = new Smelly(this.gp, x, y, index);
     }
 
     removeNpc(idx) {

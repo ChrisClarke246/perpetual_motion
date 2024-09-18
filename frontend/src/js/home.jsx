@@ -6,6 +6,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 function Home() {
   sessionStorage.removeItem("alreadyReloaded");
 
+  const usernameRegex = /^@[a-zA-Z0-9._]{1,30}$/;
   const captchaRef = useRef(null);
   localStorage.clear();
   const [ig, setIG] = useState("");
@@ -41,6 +42,12 @@ function Home() {
     e.preventDefault();
     // Reset error message
     setErrorMessage("");
+
+    if (!usernameRegex.test(ig)) {
+      setErrorMessage("Enter a valid IG username starting with '@' and containing only letters, numbers, periods, and underscores.");
+      setIG("");
+      return;
+    }
 
     if (!ig.includes("@")) {
       setErrorMessage("Enter a valid IG username (with an @)");

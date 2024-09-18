@@ -12,6 +12,7 @@ function Play() {
   const navigate = useNavigate();
 
   // Check if user is logged in
+
   const loggedIn = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {

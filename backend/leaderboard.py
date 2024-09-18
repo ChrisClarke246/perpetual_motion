@@ -65,7 +65,7 @@ class LeaderboardList(Resource):
 
     @leaderboard_ns.expect(leaderboard_model)
     def post(self):
-        """Create a new leaderboard entry, ensuring only the top 30 scores are stored."""
+        """Create a new leaderboard entry, ensuring only the top 30 scores are stored and each username is unique with the highest score."""
         try:
             data = request.get_json()
             username = data.get('username')
@@ -74,28 +74,44 @@ class LeaderboardList(Resource):
             if not username or score is None:
                 return {"message": "Username and score are required"}, 400
             
-            hmac =  generate_hmac(username, score)
+            # Generate HMAC
+            hmac_value = generate_hmac(username, score)
 
-            # Check if there are already 20 scores
+            # Check if the user already exists in the leaderboard
+            existing_entry = Leaderboard.query.filter_by(username=username).first()
+
+            if existing_entry:
+                # If the new score is higher than the existing score, update it
+                if score > existing_entry.score:
+                    existing_entry.score = score
+                    existing_entry.hmac = hmac_value  # Update HMAC too
+                    existing_entry.save()
+                    return {"message": "Score updated successfully"}, 200
+                else:
+                    return {"message": "New score is not higher than the existing score"}, 200
+
+            # If user doesn't exist, proceed to check leaderboard count
             total_scores = Leaderboard.query.count()
 
-            # only store max 20 scores
-            if total_scores < 20:
-                # Less than 30 scores, simply add the new one
-                new_entry = Leaderboard(username=username, score=score, hmac=hmac)
+            # If there are fewer than 30 scores, add the new entry
+            if total_scores < 30:
+                new_entry = Leaderboard(username=username, score=score, hmac=hmac_value)
                 new_entry.save()
             else:
                 # Get the lowest score from the leaderboard
                 lowest_score_entry = Leaderboard.query.order_by(Leaderboard.score.asc()).first()
 
                 if score > lowest_score_entry.score:
-                    # If the new score is higher, replace the lowest score
+                    # Replace the lowest score with the new entry if the new score is higher
                     lowest_score_entry.username = username
                     lowest_score_entry.score = score
+                    lowest_score_entry.hmac = hmac_value
                     lowest_score_entry.save()
+                else:
+                    return {"message": "Score not high enough to enter the leaderboard"}, 200
 
             return {"message": "Score added/updated successfully"}, 201
 
         except Exception as e:
             return {"message": str(e)}, 500
-        
+            

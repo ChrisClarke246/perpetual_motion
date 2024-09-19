@@ -234,7 +234,7 @@ export class Player extends Entity {
 	            // Play sound effect if needed (uncomment if you have a sound system)
 	            // this.gp.playSoundEffect(index);
 
-	            this.getPlayerImage("Speed");
+	            this.getPlayerImage("speed");
 	            break;
 
 	        case "Donut":

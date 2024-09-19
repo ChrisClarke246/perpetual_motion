@@ -75,10 +75,10 @@ export class Smelly extends Entity {
         // Adjust speed and jump strength based on game phase
         if (this.gp.getGamePhase() === this.gp.GamePhase.THREE) {
             this.speed = 5;
-            this.jumpStrength = -18;
+            this.jumpStrength = -14;
         } else if (this.gp.getGamePhase() === this.gp.GamePhase.TWO) {
             this.speed = 4;
-            this.jumpStrength = -15;
+            this.jumpStrength = -13;
         } else if (this.gp.getGamePhase() === this.gp.GamePhase.ONE) {
             this.speed = 4;
             this.jumpStrength = -15;

@@ -1,13 +1,10 @@
 // main.js
 import { GamePanel } from './game.js'; // Path to the file where GamePanel is defined
 
-// Once the window loads, set up the game
-window.onload = function () {
-    // Get the canvas element from the HTML
-    const canvas = document.getElementById('gameCanvas');
-
-    // Initialize the game panel (this replaces JFrame and panel setup in Java)
-    const gamePanel = new GamePanel(canvas);
+// Define the initializeGame function and attach it to the window object
+window.initializeGame = function (canvasElement) {
+    // Initialize the game panel
+    const gamePanel = new GamePanel(canvasElement);
 
     // Set up the game (equivalent to gamePanel.setUpGame())
     gamePanel.setUpGame();
@@ -15,3 +12,4 @@ window.onload = function () {
     // Start the game loop (equivalent to gamePanel.startGameThread())
     gamePanel.startGameLoop();
 };
+

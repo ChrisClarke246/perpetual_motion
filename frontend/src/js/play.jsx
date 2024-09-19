@@ -5,31 +5,30 @@ import "../css/play.css";
 
 function Play() {
   const [score, setScore] = useState(0);
-  const [user, setUSer] = useState("");
+  const [user, setUser] = useState("");
   const [msg, setPlayMessage] = useState("");
   const [description, setDescription] = useState("");
   const canvasRef = useRef(null);
   const navigate = useNavigate();
 
   // Check if user is logged in
-
   const loggedIn = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
-      setUSer(user);
+      setUser(user);
       setPlayMessage(`${user} is now in perpetual motion!`);
-      return true; // Indicate that the user is logged in
+      return true;
     } else {
       setPlayMessage("Error");
       setDescription("Enter a valid username");
-      return false; // Indicate that the user is not logged in
+      return false;
     }
   };
 
   // Ensure user navigated fairly (simple validation based on localStorage)
   const navigatedFairly = () => {
     const user = JSON.parse(localStorage.getItem("user"));
-    if (user == null) {
+    if (!user) {
       setPlayMessage("Error");
       setDescription("Enter a valid username");
       return false;
@@ -39,73 +38,77 @@ function Play() {
 
   // Navigate back home
   const home = () => {
-    sessionStorage.removeItem("alreadyReloaded"); // Clear reload flag when navigating home
     navigate("/");
-  };
-
-  // Function to reload the page once
-  const reloadOnce = () => {
-    const alreadyReloaded = sessionStorage.getItem("alreadyReloaded");
-    if (!alreadyReloaded) {
-      sessionStorage.setItem("alreadyReloaded", "true");
-      window.location.reload();
-    }
   };
 
   useEffect(() => {
     window.updateReactScore = async (gameScore) => {
-        setScore(gameScore); // Update the score in the React state
+      setScore(gameScore);
 
-        // console.log(`${user} scored ${gameScore}`);
-
-        try {
-          const response = await fetch('/api/leaderboard/', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username: user, score: gameScore }) // Ensure 'username' matches what the backend expects
-          });
-      
-          const data = await response.json();
-          // console.log('Score submitted:', data);
-        } catch (error) {
-          console.error('Error submitting score:', error);
+      try {
+        const response = await fetch('/api/leaderboard/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username: user, score: gameScore })
+        });
+        const data = await response.json();
+      } catch (error) {
+        //console.error('Error submitting score:', error);
       }
     };
 
     return () => {
-        // Clean up the function when the component unmounts
-        window.updateReactScore = null;
+      window.updateReactScore = null;
     };
-  }, [user, score]); // Ensure the useEffect hook runs when user and score change
-
+  }, [user, score]);
 
   useEffect(() => {
     const isLoggedIn = loggedIn();
     const isFairlyNavigated = navigatedFairly();
 
-    // Only load the game script if the user is logged in and navigated fairly
     if (isLoggedIn && isFairlyNavigated) {
-      const script = document.createElement("script");
-      script.src = "/dist/bundle.js";
-      script.async = true;
+      const scriptExists = document.querySelector('script[src="/dist/bundle.js"]');
 
-      script.onload = () => {
+      if (!scriptExists) {
+        const script = document.createElement("script");
+        script.src = "/dist/bundle.js";
+        script.async = true;
+
+        script.onload = () => {
+          //console.log("Script loaded successfully.");
+          //console.log("Checking window object for initializeGame: ", window.initializeGame);
+
+          if (canvasRef.current && typeof window.initializeGame === "function") {
+            //console.log("Initializing game...");
+            window.initializeGame(canvasRef.current);
+          } else {
+            //console.error("Game initialization function not found.");
+          }
+        };
+
+        script.onerror = () => {
+          //console.error("Error loading the game script.");
+        };
+
+        document.body.appendChild(script);
+      } else {
+        // Script already exists, ensure game initialization is called
+        //console.log("Script already exists. Checking window object for initializeGame: ", window.initializeGame);
         if (canvasRef.current && typeof window.initializeGame === "function") {
-          window.initializeGame(canvasRef.current); // Pass canvas element to game initialization
+          //console.log("Initializing game...");
+          window.initializeGame(canvasRef.current);
         } else {
-          reloadOnce(); // If the game does not initialize properly, reload the page once
+          //console.error("Game initialization function not found.");
         }
-      };
-
-      document.body.appendChild(script);
+      }
 
       return () => {
-        document.body.removeChild(script);
+        // No need to remove the script, keep it for future visits
       };
     }
-  }, [canvasRef]); // Wait for the canvasRef to be available
+  }, [canvasRef]);
 
   return (
     <div className="play-container">

@@ -44,10 +44,10 @@ export class Smelly extends Entity {
         this.right1 = new Image();
         this.right2 = new Image();
 
-        this.left1.src = `assets/enemy/smelly_${effect}_left1.png`;
-        this.left2.src = `assets/enemy/smelly_${effect}_left2.png`;
-        this.right1.src = `assets/enemy/smelly_${effect}_right1.png`;
-        this.right2.src = `assets/enemy/smelly_${effect}_right2.png`;
+        this.left1.src = `assets/enemy/Smelly_${effect}_left1.png`;
+        this.left2.src = `assets/enemy/Smelly_${effect}_left2.png`;
+        this.right1.src = `assets/enemy/Smelly_${effect}_right1.png`;
+        this.right2.src = `assets/enemy/Smelly_${effect}_right2.png`;
 
         // Fallback if images fail to load
         this.left1.onerror = () => this.getPlaceholderImage();

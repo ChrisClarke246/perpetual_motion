@@ -216,7 +216,7 @@ export class Player extends Entity {
 				break;
 
 	        case "Shoe":
-	            this.effect = "Speed";
+	            this.effect = "speed";
 	            this.gp.aSetter.removeObj(index);
 
 	            // Increase player speed and change animation

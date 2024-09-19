@@ -111,7 +111,7 @@ function Home() {
               </tr>
             </thead>
             <tbody>
-              {leaderboard.slice(0, 5).map((entry, index) => (
+              {leaderboard.slice(0, 10).map((entry, index) => (
                 <tr key={index}>
                   <td>{entry.username}</td>
                   <td>{entry.score}</td>

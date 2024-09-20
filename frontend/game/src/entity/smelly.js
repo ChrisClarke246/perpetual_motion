@@ -128,8 +128,6 @@ export class Smelly extends Entity {
             } else {
                 if (this.directionX === "left") {
                     if (this.worldX - this.speed > 0) {
-
-                        this.placeStench();
                         
                         this.worldX -= this.speed;  // Move left
                     } else {
@@ -138,8 +136,6 @@ export class Smelly extends Entity {
                 } else if (this.directionX === "right") {
                     if (this.worldX + this.speed < (this.gp.maxWorldCol - 1) * this.gp.tileSize) {
                        
-                        this.placeStench();
-
                         this.worldX += this.speed;  // Move right
                     } else {
                         this.directionX = "left";  // Switch to left if hitting the right boundary
@@ -157,21 +153,6 @@ export class Smelly extends Entity {
             } else {
                 this.spriteNum = 0;  // Reset to idle if not moving
             }
-        }
-    }
-
-    placeStench(){
-        if (this.smellidx1 >= this.gp.maxNumObjects && this.gp.freeObjectIdx.length > 0){
-            this.smellidx1 = this.gp.freeObjectIdx.shift();
-            this.smell1x = this.worldX;
-            this.gp.aSetter.placeSmell(this.smell1x, this.startY);
-        }
-        else{
-            if (Math.abs(this.worldX - this.smell1x) >= 2 * this.gp.tileSize){
-                this.gp.aSetter.removeObj(this.smellidx1)
-                this.smellidx1 = this.gp.maxNumObjects
-            }
-
         }
     }
         

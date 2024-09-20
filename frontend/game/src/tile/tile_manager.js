@@ -20,6 +20,7 @@ export class TileManager {
         this.currentObstacle = null;
         this.prevObstacle = null;
 		this.lastBridgeSize = 0;
+		this.lasEnemySize = 0;
 
         // Power-ups and NPC spawn rates
         this.bottleSpawnRate = 40;
@@ -92,6 +93,7 @@ export class TileManager {
 
     resetMap() {
 		this.lastBridgeSize = 0;
+		this.lasEnemySize = 0;
         this.mapTileNum = [];
         this.chasingTimer = 0;
         this.lastChasingTile = 0;
@@ -152,13 +154,13 @@ export class TileManager {
 			this.smellySpawnRate = 3;
 	    } else if (this.gp.getGamePhase() === this.gp.GamePhase.ONE) {
 	        this.bottleSpawnRate = 35;
-	        this.yarkbossSpawnRate = 5;
+	        this.yarkbossSpawnRate = 1000;//5
 	        this.donutSpawnRate = 50;
 	        this.sharkSpawnRate = 20;
 	        this.shoeSpawnRate = 30;
 	        this.birdSpawnRate = 15;
 			this.anchorSpawnRate = 25;
-			this.smellySpawnRate = 5;
+			this.smellySpawnRate = 1;//5
 	    }
 
 	    // Check if the player is nearing the edge of the current map
@@ -205,6 +207,7 @@ export class TileManager {
 	                if (this.prevObstacle !== "hole") {
 	                    if (this.remainingColsForStruct === 0) {
 	                        size = Math.floor(Math.random() * 6) + 5; // Random size between 5 and 10
+							this.lasEnemySize = size;
 	                    } else {
 	                        size = this.remainingColsForStruct;
 	                    }
@@ -279,7 +282,16 @@ export class TileManager {
 	            if (placeSmelly === 0) {
 	                const x = (this.gp.maxWorldCol - 1) * this.gp.tileSize;
 	                const y = (this.gp.groundRow * this.gp.tileSize) - (this.gp.tileSize / 2); // on the ground
-	                this.gp.aSetter.placeSmelly(x, y);
+					this.gp.aSetter.placeSmelly(x, y);
+					let newX = x + this.gp.tileSize;
+					let shipTiles = this.lasEnemySize -2;
+					console.log(`shipTiles: ${shipTiles}`);
+					for (let i=0; i<shipTiles - 1;i++){
+						if (i%2 == 0){
+							newX -= (2 * this.gp.tileSize);
+							this.gp.aSetter.placeSmell(newX, y);
+						}
+					}
 	            }
 				else if (placeEnemy === 0) {
 	                const x = (this.gp.maxWorldCol - 1) * this.gp.tileSize;

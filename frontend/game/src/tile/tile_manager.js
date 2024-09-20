@@ -285,7 +285,6 @@ export class TileManager {
 					this.gp.aSetter.placeSmelly(x, y);
 					let newX = x + this.gp.tileSize;
 					let shipTiles = this.lasEnemySize -2;
-					console.log(`shipTiles: ${shipTiles}`);
 					for (let i=0; i<shipTiles - 1;i++){
 						if (i%2 == 0){
 							newX -= (2 * this.gp.tileSize);

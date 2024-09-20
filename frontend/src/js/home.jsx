@@ -85,7 +85,6 @@ function Home() {
             />
             <p>** You will not be eligible for any giveaways unless you enter a valid Instagram Username **</p>
           {/* </div>
-          {errormsg && <p className="error-message">{errormsg}</p>}
           <div className="captcha">
             <ReCAPTCHA
               theme="dark"
@@ -95,6 +94,7 @@ function Home() {
               ref={captchaRef}
             /> */}
           </div>
+          {errormsg && <p className="error-message">{errormsg}</p>}
           <button type="submit" className="btn">
             Play
           </button>

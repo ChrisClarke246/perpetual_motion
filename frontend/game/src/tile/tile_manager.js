@@ -154,13 +154,13 @@ export class TileManager {
 			this.smellySpawnRate = 3;
 	    } else if (this.gp.getGamePhase() === this.gp.GamePhase.ONE) {
 	        this.bottleSpawnRate = 35;
-	        this.yarkbossSpawnRate = 1000;//5
+	        this.yarkbossSpawnRate = 5;
 	        this.donutSpawnRate = 50;
 	        this.sharkSpawnRate = 20;
 	        this.shoeSpawnRate = 30;
 	        this.birdSpawnRate = 15;
 			this.anchorSpawnRate = 25;
-			this.smellySpawnRate = 1;//5
+			this.smellySpawnRate = 5;
 	    }
 
 	    // Check if the player is nearing the edge of the current map

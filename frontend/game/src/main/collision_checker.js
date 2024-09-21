@@ -52,23 +52,29 @@ export class CollisionChecker {
         const entityRightWorldX = entity.worldX + entity.hitBox.x + entity.hitBox.width;
         const entityTopWorldY = entity.worldY + entity.hitBox.y;
         const entityBottomWorldY = entity.worldY + entity.hitBox.y + entity.hitBox.height;
-
+    
         const entityLeftCol = Math.floor(entityLeftWorldX / this.gp.tileSize);
         const entityRightCol = Math.floor(entityRightWorldX / this.gp.tileSize);
-
+    
         let tileNum1;
-
+    
         // Check upward collision
         if (entity.directionY === "up") {
             const newEntityTopRow = Math.floor((entityTopWorldY - Math.abs(entity.velocityY)) / this.gp.tileSize);
-
-            if (newEntityTopRow < 0) {
+    
+            // Check if newEntityTopRow is within bounds
+            if (newEntityTopRow < 0 || newEntityTopRow >= this.gp.tileM.mapTileNum[0].length) {
                 entity.collisionOnY = true;
-                entity.velocityY = 0;  // grvity will move you down
+                entity.velocityY = 0;  // Stop upward movement
                 return;
             }
-
+    
             for (let col = entityLeftCol; col <= entityRightCol; col++) {
+                // Check if col is within bounds
+                if (col < 0 || col >= this.gp.tileM.mapTileNum.length) {
+                    continue;  // Skip out-of-bounds columns
+                }
+    
                 tileNum1 = this.gp.tileM.mapTileNum[col][newEntityTopRow];
                 if (this.gp.tileM.tile[tileNum1].collision) {
                     entity.collisionOnY = true;
@@ -76,16 +82,29 @@ export class CollisionChecker {
                     return;
                 }
                 if (!this.gp.tileM.tile[tileNum1].safe) {
-					//console.log(`up collision with tile ${tileNum1} killed player`);
                     entity.alive = false;
                 }
             }
         }
-
+    
         // Check downward collision
         if (entity.directionY === "down") {
             const newEntityBottomRow = Math.floor((entityBottomWorldY + Math.abs(entity.velocityY)) / this.gp.tileSize);
+    
+            // Check if newEntityBottomRow is within bounds
+            if (newEntityBottomRow < 0 || newEntityBottomRow >= this.gp.tileM.mapTileNum[0].length) {
+                entity.collisionOnY = true;
+                entity.onGround = true;  // Stop downward movement
+                entity.velocityY = 0;
+                return;
+            }
+    
             for (let col = entityLeftCol; col <= entityRightCol; col++) {
+                // Check if col is within bounds
+                if (col < 0 || col >= this.gp.tileM.mapTileNum.length) {
+                    continue;  // Skip out-of-bounds columns
+                }
+    
                 tileNum1 = this.gp.tileM.mapTileNum[col][newEntityBottomRow];
                 if (this.gp.tileM.tile[tileNum1].collision) {
                     entity.collisionOnY = true;
@@ -94,14 +113,13 @@ export class CollisionChecker {
                     return;
                 }
                 if (!this.gp.tileM.tile[tileNum1].safe) {
-					//console.log(`down collision with tile ${tileNum1} killed player`);
                     entity.alive = false;
                 }
             }
             // If no collision is found, the player is not on the ground
             entity.onGround = false;
         }
-    }
+    }    
 
     checkObject(entity, isPlayer) {
         let objCollision = false;
@@ -272,5 +290,5 @@ export class CollisionChecker {
             }
         }
     }
-    
+
 }

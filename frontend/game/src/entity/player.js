@@ -101,6 +101,12 @@ export class Player extends Entity {
 	        }
 	    }
 
+		for (let i = 0; i < this.gp.maxProjectiles; i++) {
+	        if (this.gp.pros[i] != null) {
+	            this.gp.cChecker.checkPlayerProjectileCollision(this, this.gp.pros[i]);
+	        }
+	    }
+
 	    // Handle horizontal movement
 	    if (this.keyH.leftPressed || this.keyH.rightPressed) {
 	        if (this.keyH.leftPressed) {

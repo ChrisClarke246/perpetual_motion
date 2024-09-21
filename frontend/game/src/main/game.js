@@ -69,6 +69,10 @@ export class GamePanel {
         this.npcs = new Array(this.maxNumNpcs); // Array of NPCs
         this.freeNpcIdx = [];
 
+		this.maxProjectiles = 2;
+		this.pros = new Array(this.maxProjectiles);
+		this.freeProjectileIdx = [];
+
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
     }
@@ -160,6 +164,12 @@ export class GamePanel {
 	            }
 	        }
 
+			for (let i = 0; i < this.pros.length; i++) {
+	            if (this.pros[i] != null) {
+	                this.pros[i].update();
+	            }
+	        }
+
 	        // Update tile map
 	        this.tileM.updateMap();
 	    }
@@ -202,6 +212,12 @@ export class GamePanel {
 	            for (let i = 0; i < this.npcs.length; i++) {
 	                if (this.npcs[i] != null) {
 	                    this.npcs[i].draw(this.ctx);
+	                }
+	            }
+
+				for (let i = 0; i < this.pros.length; i++) {
+	                if (this.pros[i] != null) {
+	                    this.pros[i].draw(this.ctx);
 	                }
 	            }
 

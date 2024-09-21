@@ -9,10 +9,15 @@ import { Enemy } from '../entity/enemy.js';
 import { Anchor } from '../entity/anchor.js';
 import { Smelly } from '../entity/smelly.js';
 
+import { Pro_Voice } from '../projectile/pro_voice.js';
+import { Singer } from '../entity/singer.js';
+
 export class AssetSetter {
     constructor(gamePanel) {
         this.gp = gamePanel;
     }
+
+    // SET ASSETS
 
     setObject() {
         // Fill object and NPC queues with available indices
@@ -22,7 +27,13 @@ export class AssetSetter {
         for (let i = 0; i < this.gp.maxNumNpcs; i++) {
             this.gp.freeNpcIdx.push(i);  // Add index to the queue
         }
+        for (let i = 0; i < this.gp.maxProjectiles; i++) {
+            this.gp.freeProjectileIdx.push(i);  // Add index to the queue
+        }
     }
+
+
+    // OBJECTS
 
     placeSmell(x, y) {
         if (this.gp.freeObjectIdx.length === 0) {
@@ -83,6 +94,10 @@ export class AssetSetter {
         }
     }
 
+
+
+    // ENEMIES
+
     placeEnemy(x, y) {
         if (this.gp.freeNpcIdx.length === 0) {
             return;  // No free slots available
@@ -129,12 +144,45 @@ export class AssetSetter {
         this.gp.npcs[index] = new Smelly(this.gp, x, y, index);
     }
 
+    placeSinger(x, y) {
+        if (this.gp.freeNpcIdx.length === 0) {
+            return;  // No free slots available
+        }
+
+        const index = this.gp.freeNpcIdx.shift();  // Get and remove the first free index
+        this.gp.npcs[index] = new Singer(this.gp, x, y, index);
+    }
+
     removeNpc(idx) {
         if (this.gp.npcs[idx] !== null) {
             this.gp.npcs[idx] = null;  // Remove the NPC
             this.gp.freeNpcIdx.push(idx);  // Return the index to the queue
         }
     }
+
+
+
+    // Projectiles
+    placeVoice(x, y) {
+        
+        if (this.gp.freeProjectileIdx.length === 0) {
+            return;  // No free slots available
+        }
+
+
+        const index = this.gp.freeProjectileIdx.shift();  // Get and remove the first free index
+        this.gp.pros[index] = new Pro_Voice(this.gp, x, y, index);
+    }
+
+    removeprojectile(idx) {
+        if (this.gp.pros[idx] !== null) {
+            this.gp.pros[idx] = null;  // Remove the NPC
+            this.gp.freeProjectileIdx.push(idx);  // Return the index to the queue
+        }
+    }
+
+
+    // RESET ASSETS
 
     resetAssets() {
         // Clear all objects and NPCs from the game panel

@@ -31,6 +31,7 @@ export class TileManager {
         this.birdSpawnRate = 15;
 		this.anchorSpawnRate = 25;
 		this.smellySpawnRate = 5;
+		this.singerSpawnRate = 30;
 
         this.random = Math.random;
 
@@ -143,6 +144,7 @@ export class TileManager {
 	        this.birdSpawnRate = 3;
 			this.anchorSpawnRate = 6;
 			this.smellySpawnRate = 2;
+			this.singerSpawnRate = 10;
 	    } else if (this.gp.getGamePhase() === this.gp.GamePhase.TWO) {
 	        this.bottleSpawnRate = 30;
 	        this.yarkbossSpawnRate = 3;
@@ -152,6 +154,7 @@ export class TileManager {
 	        this.birdSpawnRate = 10;
 			this.anchorSpawnRate = 12;
 			this.smellySpawnRate = 3;
+			this.singerSpawnRate = 20;
 	    } else if (this.gp.getGamePhase() === this.gp.GamePhase.ONE) {
 	        this.bottleSpawnRate = 35;
 	        this.yarkbossSpawnRate = 5;
@@ -161,6 +164,7 @@ export class TileManager {
 	        this.birdSpawnRate = 15;
 			this.anchorSpawnRate = 25;
 			this.smellySpawnRate = 5;
+			this.singerSpawnRate = 30;
 	    }
 
 	    // Check if the player is nearing the edge of the current map
@@ -259,22 +263,19 @@ export class TileManager {
 	        // Add consumables after the new column has been added
 	        if (this.currentObstacle === "box" && size > 0) {
 	            const placePowerUp = Math.floor(Math.random() * this.bottleSpawnRate);
-	            if (placePowerUp === 0) {
+				const placeBirdChance = Math.floor(Math.random() * this.birdSpawnRate);
+				if (placePowerUp === 0) {
 	                const x = (this.gp.maxWorldCol - 1) * this.gp.tileSize;
 	                const y = (this.gp.groundRow - size - 1) * this.gp.tileSize; // on top of the boxes
 	                this.gp.aSetter.placeBottle(x, y);
 	            }
-	        }
-
-	        if (this.currentObstacle === "box" && size > 0) {
-	            const placeEnemy = Math.floor(Math.random() * this.birdSpawnRate);
-	            if (placeEnemy === 0) {
+				else if (placeBirdChance === 0) {
 	                const x = (this.gp.maxWorldCol - 1) * this.gp.tileSize;
 	                const y = (this.gp.groundRow - size - 3) * this.gp.tileSize; // on top of the boxes
 	                const flightDistance = (Math.floor(Math.random() * 8) + 5) * this.gp.tileSize; // between 5 and 12
 	                this.gp.aSetter.placeBird(x, y, flightDistance);
-	            }
-	        }
+				}
+			}
 
 	        if (this.currentObstacle === "enemy" && this.remainingColsForStruct === 1) {
 	            const placeEnemy = Math.floor(Math.random() * this.yarkbossSpawnRate);
@@ -320,6 +321,7 @@ export class TileManager {
 	        if (this.currentObstacle === "bridge" && height > 0 && this.remainingColsForStruct === 0) {
 	            const placePowerUp = Math.floor(Math.random() * this.shoeSpawnRate);
 				const placeAnchor = Math.floor(Math.random() * this.anchorSpawnRate);
+				const placeSingerChance = Math.floor(Math.random() * this.singerSpawnRate);
 	            if (placePowerUp === 0) {
 	                const x = (this.gp.maxWorldCol - 1) * this.gp.tileSize;
 	                const y = (this.gp.groundRow - height - 1) * this.gp.tileSize; // on top of the bridge
@@ -330,6 +332,11 @@ export class TileManager {
 	                const y = (this.gp.groundRow - height - 1) * this.gp.tileSize; // on top of the bridge
 					const jumpDistance = (this.lastBridgeSize + 1) * this.gp.tileSize;
 					this.gp.aSetter.placeAnchor(x, y, jumpDistance);
+	            }
+				else if (placeSingerChance === 0) {
+	                const x = (this.gp.maxWorldCol - 1) * this.gp.tileSize;
+	                const y = (this.gp.groundRow - height) * this.gp.tileSize; // on top of the boxes
+	                this.gp.aSetter.placeSinger(x, y);
 	            }
 	        }
 	    }

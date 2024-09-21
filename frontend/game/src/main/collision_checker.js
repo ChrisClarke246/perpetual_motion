@@ -230,4 +230,47 @@ export class CollisionChecker {
             }
         }
     }
+
+    checkPlayerProjectileCollision(player, projectile) {
+        // Player's hitbox
+        let playerHitBoxLeftWorldX = player.worldX + player.hitBox.x;
+        let playerHitBoxTopWorldY = player.worldY + player.hitBox.y;
+        let playerHitBoxRightWorldX = player.worldX + player.hitBox.x + player.hitBox.width;
+        let playerHitBoxBottomWorldY = player.worldY + player.hitBox.y + player.hitBox.height;
+    
+        // Projectile's hitbox
+        let projectileHitBoxLeftWorldX = projectile.worldX + projectile.hitBox.x;
+        let projectileHitBoxTopWorldY = projectile.worldY + projectile.hitBox.y;
+        let projectileHitBoxRightWorldX = projectile.worldX + projectile.hitBox.x + projectile.hitBox.width;
+        let projectileHitBoxBottomWorldY = projectile.worldY + projectile.hitBox.y + projectile.hitBox.height;
+    
+        // Adjust player's horizontal hitbox based on direction
+        switch (player.directionX) {
+            case "left":
+                playerHitBoxLeftWorldX -= player.speed;
+                playerHitBoxRightWorldX -= player.speed;
+                break;
+            case "right":
+                playerHitBoxLeftWorldX += player.speed;
+                playerHitBoxRightWorldX += player.speed;
+                break;
+        }
+    
+        // Adjust projectile's hitbox based on its movement
+        projectileHitBoxLeftWorldX += projectile.incrementX;
+        projectileHitBoxTopWorldY += projectile.incrementY;
+        projectileHitBoxRightWorldX += projectile.incrementX;
+        projectileHitBoxBottomWorldY += projectile.incrementY;
+    
+        // Check for overlap between player and projectile hitboxes (both horizontal and vertical)
+        if (playerHitBoxLeftWorldX < projectileHitBoxRightWorldX &&
+            playerHitBoxRightWorldX > projectileHitBoxLeftWorldX &&
+            playerHitBoxTopWorldY < projectileHitBoxBottomWorldY &&
+            playerHitBoxBottomWorldY > projectileHitBoxTopWorldY) {
+            if (player.effect != "Donut") {
+                player.alive = false;  // Player dies from collision with projectile
+            }
+        }
+    }
+    
 }

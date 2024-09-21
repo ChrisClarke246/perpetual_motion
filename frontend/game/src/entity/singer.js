@@ -65,6 +65,11 @@ export class Singer extends Entity {
     }
 
     update() {
+        if (!this.alive) {
+            this.gp.aSetter.removeNpc(this.enemyIdx);
+            return;
+        }
+
         if (this.gp.getGamePhase() === this.gp.GamePhase.THREE) {
 	        this.range = 13;
 	    } else if (this.gp.getGamePhase() === this.gp.GamePhase.TWO) {

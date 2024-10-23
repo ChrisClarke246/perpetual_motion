@@ -33,9 +33,9 @@ function Home() {
   //   }
   // };
 
-  useEffect(() => {
-    fetchLeaderboard();
-  }, []);
+  // useEffect(() => {
+  //   fetchLeaderboard();
+  // }, []);
 
   // Function to handle form submission
   const handleClick = (e) => {
@@ -43,18 +43,18 @@ function Home() {
     // Reset error message
     setErrorMessage("");
 
-    if (!usernameRegex.test(ig)) {
-      setErrorMessage("Enter a valid IG username starting with '@' and containing only letters, numbers, periods, and underscores.");
-      setIG("");
-      return;
-    }
+    // if (!usernameRegex.test(ig)) {
+    //   setErrorMessage("Enter a valid IG username starting with '@' and containing only letters, numbers, periods, and underscores.");
+    //   setIG("");
+    //   return;
+    // }
 
-    if (!ig.includes("@")) {
-      setErrorMessage("Enter a valid IG username (with an @)");
-      // Reset input fields
-      setIG("");
-      return;
-    }
+    // if (!ig.includes("@")) {
+    //   setErrorMessage("Enter a valid IG username (with an @)");
+    //   // Reset input fields
+    //   setIG("");
+    //   return;
+    // }
 
     // const token = captchaRef.current.getValue();
 
@@ -78,12 +78,12 @@ function Home() {
           <div className="input-group">
             <input
               type="text"
-              placeholder="@Instagram_Username"
+              placeholder="name"
               value={ig}
               onChange={(e) => setIG(e.target.value)}
               required
             />
-            <p>** You will not be eligible for any giveaways unless you enter a valid Instagram Username **</p>
+            <p>** This is a static version of motion the game (there is no live leaderboard) **</p>
           {/* </div>
           <div className="captcha">
             <ReCAPTCHA

@@ -11,27 +11,27 @@ function Home() {
   localStorage.clear();
   const [ig, setIG] = useState("");
   const [errormsg, setErrorMessage] = useState("");
-  const [leaderboard, setLeaderboard] = useState([]);
+  // const [leaderboard, setLeaderboard] = useState([]);
 
   // React Router navigation hook
   const navigate = useNavigate();
 
   // Simulate fetching leaderboard data
-  const fetchLeaderboard = async () => {
-    try {
-      const response = await fetch("/api/leaderboard/");  // Assuming this is the API endpoint for the leaderboard
-      // console.log(response)
-      if (response.ok) {
-        const data = await response.json();
-        // console.log(data)
-        setLeaderboard(data);  // Update leaderboard state
-      } else {
-        console.error("Failed to fetch leaderboard data.");
-      }
-    } catch (error) {
-      console.error("Error fetching leaderboard:", error);
-    }
-  };
+  // const fetchLeaderboard = async () => {
+  //   try {
+  //     const response = await fetch("/api/leaderboard/");  // Assuming this is the API endpoint for the leaderboard
+  //     // console.log(response)
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       // console.log(data)
+  //       setLeaderboard(data);  // Update leaderboard state
+  //     } else {
+  //       console.error("Failed to fetch leaderboard data.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching leaderboard:", error);
+  //   }
+  // };
 
   useEffect(() => {
     fetchLeaderboard();
@@ -101,7 +101,7 @@ function Home() {
         </form>
 
         {/* Leaderboard section under the form */}
-        <div className="leaderboard-card">
+        {/* <div className="leaderboard-card">
           <h3>Leaderboard</h3>
           <table className="leaderboard-table">
             <thead>
@@ -119,7 +119,7 @@ function Home() {
               ))}
             </tbody>
           </table>
-        </div>
+        </div> */}
       </div>
     </div>
   );

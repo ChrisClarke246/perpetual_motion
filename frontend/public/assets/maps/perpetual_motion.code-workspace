@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "perpetual_motion",
+			"path": "../../../.."
+		},
+		{
+			"name": "frontend",
+			"path": "../../../../../../2023/motion the cruise/motion/frontend"
+		}
+	],
+	"settings": {}
+}

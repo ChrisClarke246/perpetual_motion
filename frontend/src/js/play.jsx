@@ -45,18 +45,18 @@ function Play() {
     window.updateReactScore = async (gameScore) => {
       setScore(gameScore);
 
-      try {
-        const response = await fetch('/api/leaderboard/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username: user, score: gameScore })
-        });
-        const data = await response.json();
-      } catch (error) {
-        //console.error('Error submitting score:', error);
-      }
+      // try {
+      //   const response = await fetch('/api/leaderboard/', {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify({ username: user, score: gameScore })
+      //   });
+      //   const data = await response.json();
+      // } catch (error) {
+      //   //console.error('Error submitting score:', error);
+      // }
     };
 
     return () => {

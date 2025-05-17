@@ -11,7 +11,7 @@ export class TileManager {
 
         this.remainingColsForStruct = 0;
         this.OBSTACLES = [
-            "ship", "ship", "ship", "ship", "ship", "ship", "ship", "ship", "ship", "ship", "ship", "ship", "ship",
+            "beach", "beach", "beach", "beach", "beach", "beach", "beach", "beach", "beach", "beach", "beach", "beach", "beach",
             "hole", "hole", "hole", "hole", "hole", "hole", "hole", "hole", "hole", "hole",
             "box", "box", "box", "box", "box", "box", "box", "box", "box",
             "bridge", "bridge",
@@ -25,13 +25,17 @@ export class TileManager {
         // Power-ups and NPC spawn rates
         this.bottleSpawnRate = 40;
         this.donutSpawnRate = 50;
-        this.shoeSpawnRate = 30;
+        this.beach_ballSpawnRate = 30;
         this.yarkbossSpawnRate = 5;
         this.sharkSpawnRate = 20;
         this.birdSpawnRate = 15;
 		this.anchorSpawnRate = 25;
-		this.smellySpawnRate = 5;
+		this.crabbySpawnRate = 5;
 		this.singerSpawnRate = 30;
+
+		// map generation
+		this.palmTreeSpawnRate = 5;
+		this.cloudSpawnRate = 7;
 
         this.random = Math.random;
 
@@ -42,17 +46,17 @@ export class TileManager {
 	getTileImage() {
 	    try {
 	        this.tile[0] = { image: this.loadImage("assets/tiles/empty.png"), collision: false, safe: true };
-	        this.tile[1] = { image: this.loadImage("assets/tiles/water1.png"), collision: false, safe: false };
-	        this.tile[2] = { image: this.loadImage("assets/tiles/water2.png"), collision: true, safe: false };
-	        this.tile[3] = { image: this.loadImage("assets/tiles/ship_tile.png"), collision: true, safe: true };
-	        this.tile[4] = { image: this.loadImage("assets/tiles/ship_l_corner.png"), collision: true, safe: true };
-	        this.tile[5] = { image: this.loadImage("assets/tiles/ship_l_corner_wave.png"), collision: true, safe: false };
-	        this.tile[6] = { image: this.loadImage("assets/tiles/ship_l_corner_water.png"), collision: true, safe: false };
-	        this.tile[7] = { image: this.loadImage("assets/tiles/ship_tile_wave.png"), collision: true, safe: false };
-	        this.tile[8] = { image: this.loadImage("assets/tiles/ship_tile_water.png"), collision: true, safe: false };
-	        this.tile[9] = { image: this.loadImage("assets/tiles/railing.png"), collision: false, safe: true };
-	        this.tile[10] = { image: this.loadImage("assets/tiles/box.png"), collision: true, safe: true };
-	        this.tile[11] = { image: this.loadImage("assets/tiles/sign.png"), collision: true, safe: true };
+	        this.tile[1] = { image: this.loadImage("assets/tiles/wave.png"), collision: false, safe: false };
+	        this.tile[2] = { image: this.loadImage("assets/tiles/shallow_water.png"), collision: true, safe: false };
+	        this.tile[3] = { image: this.loadImage("assets/tiles/sand1.png"), collision: true, safe: true };
+	        this.tile[4] = { image: this.loadImage("assets/tiles/cloud.png"), collision: false, safe: true };
+	        this.tile[5] = { image: this.loadImage("assets/tiles/deep_water.png"), collision: true, safe: false };
+	        this.tile[6] = { image: this.loadImage("assets/tiles/palm_tree_top.png"), collision: false, safe: true };
+	        this.tile[7] = { image: this.loadImage("assets/tiles/sand2.png"), collision: true, safe: false };
+	        this.tile[8] = { image: this.loadImage("assets/tiles/sand3.png"), collision: true, safe: false };
+	        this.tile[9] = { image: this.loadImage("assets/tiles/palm_tree_bottom.png"), collision: false, safe: true };
+	        this.tile[10] = { image: this.loadImage("assets/tiles/barrel.png"), collision: true, safe: true };
+	        this.tile[11] = { image: this.loadImage("assets/tiles/umbrella.png"), collision: true, safe: true };
 	        this.tile[12] = { image: this.loadImage("assets/tiles/pole.png"), collision: false, safe: true };
 	        this.tile[13] = { image: this.loadImage("assets/tiles/steel_block.png"), collision: true, safe: true };
 	    } catch (error) {
@@ -122,7 +126,9 @@ export class TileManager {
         this.lastChasingTile++;
         for (let i = 0; i < this.gp.maxWorldRow; i++) {
 			//console.log(`groundRow ${this.gp.groundRow}`)
-            if (i > this.gp.groundRow + 1) {
+            if (i > this.gp.groundRow + 2) {
+                this.mapTileNum[this.lastChasingTile][i] = 5;
+			}else if (i === this.gp.groundRow + 2) {
                 this.mapTileNum[this.lastChasingTile][i] = 2;
             } else if (i === this.gp.groundRow + 1) {
                 this.mapTileNum[this.lastChasingTile][i] = 1;
@@ -136,34 +142,37 @@ export class TileManager {
 	    this.updateChasingTiles();
 
 	    if (this.gp.getGamePhase() === this.gp.GamePhase.THREE) {
+			this.cloudSpawnRate = 5;
 	        this.bottleSpawnRate = 25;
 	        this.yarkbossSpawnRate = 2;
 	        this.donutSpawnRate = 30;
 	        this.sharkSpawnRate = 5;
-	        this.shoeSpawnRate = 20;
+	        this.beach_ballSpawnRate = 20;
 	        this.birdSpawnRate = 3;
 			this.anchorSpawnRate = 6;
-			this.smellySpawnRate = 2;
+			this.crabbySpawnRate = 2;
 			this.singerSpawnRate = 10;
 	    } else if (this.gp.getGamePhase() === this.gp.GamePhase.TWO) {
+			this.cloudSpawnRate = 6;
 	        this.bottleSpawnRate = 30;
 	        this.yarkbossSpawnRate = 3;
 	        this.donutSpawnRate = 40;
 	        this.sharkSpawnRate = 10;
-	        this.shoeSpawnRate = 25;
+	        this.beach_ballSpawnRate = 25;
 	        this.birdSpawnRate = 10;
 			this.anchorSpawnRate = 12;
-			this.smellySpawnRate = 3;
+			this.crabbySpawnRate = 3;
 			this.singerSpawnRate = 20;
 	    } else if (this.gp.getGamePhase() === this.gp.GamePhase.ONE) {
+			this.cloudSpawnRate = 7;
 	        this.bottleSpawnRate = 35;
 	        this.yarkbossSpawnRate = 5;
 	        this.donutSpawnRate = 50;
 	        this.sharkSpawnRate = 20;
-	        this.shoeSpawnRate = 30;
+	        this.beach_ballSpawnRate = 30;
 	        this.birdSpawnRate = 15;
 			this.anchorSpawnRate = 25;
-			this.smellySpawnRate = 5;
+			this.crabbySpawnRate = 5;
 			this.singerSpawnRate = 30;
 	    }
 
@@ -183,8 +192,8 @@ export class TileManager {
 	        let size = 0;
 	        let height = 0;
 	        switch (this.currentObstacle) {
-	            case "ship":
-	                this.remainingColsForStruct = this.makeShipCol(newCol);
+	            case "beach":
+	                this.remainingColsForStruct = this.makeBeachCol(newCol);
 	                break;
 
 	            case "hole":
@@ -217,7 +226,7 @@ export class TileManager {
 	                    }
 
 	                    if (this.remainingColsForStruct > 1) {
-	                        this.makeShipCol(newCol);
+	                        this.makeBeachCol(newCol);
 	                        this.remainingColsForStruct--;
 	                    } else {
 	                        this.remainingColsForStruct = this.makeEnemyzone(size, newCol);
@@ -252,10 +261,12 @@ export class TileManager {
 	                }
 
 	            default:
-	                this.currentObstacle = "ship";
-	                this.makeShipCol(newCol);
+	                this.currentObstacle = "beach";
+	                this.makeBeachCol(newCol);
 	                break;
 	        }
+			// randomly draw a cloud no matter the structure
+			this.draw_cloud(newCol)
 
 	        this.mapTileNum.push(newCol);
 	        this.gp.maxWorldCol++;
@@ -279,19 +290,21 @@ export class TileManager {
 
 	        if (this.currentObstacle === "enemy" && this.remainingColsForStruct === 1) {
 	            const placeEnemy = Math.floor(Math.random() * this.yarkbossSpawnRate);
-				const placeSmelly = Math.floor(Math.random() * this.smellySpawnRate);
-	            if (placeSmelly === 0) {
+				const placeCrabby = Math.floor(Math.random() * this.crabbySpawnRate);
+	            if (placeCrabby === 0) {
 	                const x = (this.gp.maxWorldCol - 1) * this.gp.tileSize;
 	                const y = (this.gp.groundRow * this.gp.tileSize) - (this.gp.tileSize / 2); // on the ground
-					this.gp.aSetter.placeSmelly(x, y);
-					let newX = x + this.gp.tileSize;
-					let shipTiles = this.lasEnemySize -2;
-					for (let i=0; i<shipTiles - 1;i++){
-						if (i%2 == 0){
-							newX -= (2 * this.gp.tileSize);
-							this.gp.aSetter.placeSmell(newX, y);
-						}
-					}
+					// Rename to crabby
+					this.gp.aSetter.placeCrabby(x, y);
+					// uncomment to place smells [BELOW]
+					// let newX = x + this.gp.tileSize;
+					// let beachTiles = this.lasEnemySize -2;
+					// for (let i=0; i<beachTiles - 1;i++){
+					// 	if (i%2 == 0){
+					// 		newX -= (2 * this.gp.tileSize);
+					// 		this.gp.aSetter.placeSmell(newX, y);
+					// 	}
+					// }
 	            }
 				else if (placeEnemy === 0) {
 	                const x = (this.gp.maxWorldCol - 1) * this.gp.tileSize;
@@ -309,7 +322,7 @@ export class TileManager {
 	            }
 	        }
 
-	        if (this.currentObstacle === "ship") {
+	        if (this.currentObstacle === "beach") {
 	            const placePowerUp = Math.floor(Math.random() * this.donutSpawnRate);
 	            if (placePowerUp === 0) {
 	                const x = (this.gp.maxWorldCol - 1) * this.gp.tileSize;
@@ -319,13 +332,13 @@ export class TileManager {
 	        }
 
 	        if (this.currentObstacle === "bridge" && height > 0 && this.remainingColsForStruct === 0) {
-	            const placePowerUp = Math.floor(Math.random() * this.shoeSpawnRate);
+	            const placePowerUp = Math.floor(Math.random() * this.beach_ballSpawnRate);
 				const placeAnchor = Math.floor(Math.random() * this.anchorSpawnRate);
 				const placeSingerChance = Math.floor(Math.random() * this.singerSpawnRate);
 	            if (placePowerUp === 0) {
 	                const x = (this.gp.maxWorldCol - 1) * this.gp.tileSize;
 	                const y = (this.gp.groundRow - height - 1) * this.gp.tileSize; // on top of the bridge
-	                this.gp.aSetter.placeShoe(x, y);
+	                this.gp.aSetter.placeBeachBall(x, y);
 	            }
 				if (placeAnchor === 0) {
 	                const x = (this.gp.maxWorldCol - 1) * this.gp.tileSize;
@@ -342,21 +355,39 @@ export class TileManager {
 	    }
 	}
 
-	makeShipCol(newCol) {
+	draw_cloud(newCol){
+		const cloudSpawnChance = Math.floor(Math.random() * this.cloudSpawnRate);
+		if (cloudSpawnChance == 0){
+			newCol[this.gp.groundRow - 6] = 4;
+		}
+	}
+
+	makeBeachCol(newCol) {
+		const palmTreeSpawnChance = Math.floor(Math.random() * this.palmTreeSpawnRate);
 	    for (let i = 0; i < this.gp.maxWorldRow; i++) {
-	        if (i < this.gp.groundRow) {
-	            newCol[i] = 0;
+	        if (i < this.gp.groundRow - 1) {
+					newCol[i] = 0;
+			} else if (i === this.gp.groundRow - 1) {
+				if (palmTreeSpawnChance == 0){
+					newCol[i] = 6;
+				}
+				else{
+					newCol[i] = 0;
+				}
 	        } else if (i === this.gp.groundRow) {
-	            newCol[i] = 9;
+				if (palmTreeSpawnChance == 0){
+					newCol[i] = 9;
+				}
+				else{
+					newCol[i] = 0;
+				}
 	        } else if (i === this.gp.groundRow + 1) {
 	            newCol[i] = 3;
 	        } else if (i === this.gp.groundRow + 2) {
 	            newCol[i] = 7;
-	        } else if (i > this.gp.groundRow + 2 && i < 11) {
-	            newCol[i] = 8;
 	        } else {
-	            newCol[i] = 2;
-	        }
+				newCol[i] = 8;
+			}
 	    }
 	    return 0;
 	}
@@ -367,8 +398,10 @@ export class TileManager {
 	            newCol[i] = 0;
 	        } else if (i === this.gp.groundRow + 2) {
 	            newCol[i] = 1;
-	        } else {
+			} else if (i === this.gp.groundRow + 3) {
 	            newCol[i] = 2;
+	        } else {
+	            newCol[i] = 5;
 	        }
 	    }
 	    return size - 1;
@@ -384,10 +417,8 @@ export class TileManager {
 	            newCol[i] = 3;
 	        } else if (i === this.gp.groundRow + 2) {
 	            newCol[i] = 7;
-	        } else if (i > this.gp.groundRow + 2 && i < 11) {
-	            newCol[i] = 8;
 	        } else {
-	            newCol[i] = 2;
+	            newCol[i] = 8;
 	        }
 	    }
 	    return 0;
@@ -403,10 +434,8 @@ export class TileManager {
 	            newCol[i] = 3;
 	        } else if (i === this.gp.groundRow + 2) {
 	            newCol[i] = 7;
-	        } else if (i > this.gp.groundRow + 2 && i < 11) {
-	            newCol[i] = 8;
 	        } else {
-	            newCol[i] = 2;
+	            newCol[i] = 8;
 	        }
 	    }
 	    return size - 1;
@@ -424,10 +453,8 @@ export class TileManager {
 	            newCol[i] = 3;
 	        } else if (i === this.gp.groundRow + 2) {
 	            newCol[i] = 7;
-	        } else if (i > this.gp.groundRow + 2 && i < 11) {
-	            newCol[i] = 8;
 	        } else {
-	            newCol[i] = 2;
+	            newCol[i] = 8;
 	        }
 	    }
 	    return size - 1;
@@ -441,8 +468,10 @@ export class TileManager {
 	            newCol[i] = 0;
 	        } else if (i === this.gp.groundRow + 2) {
 	            newCol[i] = 1;
-	        } else {
+			} else if (i === this.gp.groundRow + 3) {
 	            newCol[i] = 2;
+	        } else {
+	            newCol[i] = 5;
 	        }
 	    }
 	    return size - 1;

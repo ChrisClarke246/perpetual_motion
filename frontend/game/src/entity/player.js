@@ -221,7 +221,7 @@ export class Player extends Entity {
 				}
 				break;
 
-	        case "Shoe":
+	        case "BeachBall":
 	            this.effect = "speed";
 	            this.gp.aSetter.removeObj(index);
 

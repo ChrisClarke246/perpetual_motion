@@ -1,6 +1,5 @@
 import {Entity} from './entity.js';
-
-export class Smelly extends Entity {
+export class Crabby extends Entity {
     constructor(gamePanel, x, y, idx) {
         super(); // Call the parent Entity constructor
         this.gp = gamePanel;
@@ -44,10 +43,10 @@ export class Smelly extends Entity {
         this.right1 = new Image();
         this.right2 = new Image();
 
-        this.left1.src = `assets/enemy/Smelly_${effect}_left1.png`;
-        this.left2.src = `assets/enemy/Smelly_${effect}_left2.png`;
-        this.right1.src = `assets/enemy/Smelly_${effect}_right1.png`;
-        this.right2.src = `assets/enemy/Smelly_${effect}_right2.png`;
+        this.left1.src = `assets/enemy/crabby_${effect}_left.png`;
+        this.left2.src = `assets/enemy/crabby_${effect}_left.png`;
+        this.right1.src = `assets/enemy/crabby_${effect}_right.png`;
+        this.right2.src = `assets/enemy/crabby_${effect}_right.png`;
 
         // Fallback if images fail to load
         this.left1.onerror = () => this.getPlaceholderImage();

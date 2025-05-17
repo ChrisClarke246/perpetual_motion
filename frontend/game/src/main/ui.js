@@ -34,10 +34,10 @@ export class UI {
 
         // Set font and color for the header
         ctx.font = this.headerFont;
-        ctx.fillStyle = "yellow";
+        ctx.fillStyle = "purple";
 
         // Display the header text
-        const headerText = "Motion The Cruise 2024. Dec 28. Get Dey.";
+        const headerText = "Motion The Beach Party. July 26th 2025. 🆗🆗";
         const headerX = this.gp.screenWidth / 2 - ctx.measureText(headerText).width / 2;
         ctx.fillText(headerText, headerX, this.gp.screenHeight / 4);  // Header at 1/4th of the screen height
 
@@ -58,7 +58,7 @@ export class UI {
 
         // Set font and color for the game title
         ctx.font = this.headerFont;
-        ctx.fillStyle = "yellow";
+        ctx.fillStyle = "purple";
 
         // Display the title text
         const titleText = "Perpetual Motion";
@@ -67,7 +67,7 @@ export class UI {
         ctx.fillText(titleText, titleX, titleY);
 
         // Set font and color for the subtitle
-        const subtitleText = "Dec 28. Get Dey.";
+        const subtitleText = "July 26th 2025";
         ctx.font = this.smallScoreFont;
         const subtitleX = this.gp.screenWidth / 2 - ctx.measureText(subtitleText).width / 2;
         const subtitleY = titleY + 50;  // Place it just below the title
@@ -78,7 +78,7 @@ export class UI {
         ctx.font = this.smallScoreFont;
         const promptX = this.gp.screenWidth / 2 - ctx.measureText(startPrompt).width / 2;
         const promptY = 5 * (this.gp.screenHeight / 6);  // Position near the bottom center
-        ctx.fillStyle = "yellow";
+        ctx.fillStyle = "purple";
         ctx.fillText(startPrompt, promptX, promptY);
     }
 }

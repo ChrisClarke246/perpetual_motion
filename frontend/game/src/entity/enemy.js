@@ -60,10 +60,10 @@ export class Enemy extends Entity {
     }
 
     update() {
-        // If the enemy is defeated, remove it and place a shoe
+        // If the enemy is defeated, remove it and place a beach_ball
         if (!this.alive) {
             this.gp.aSetter.removeNpc(this.enemyIdx);
-            this.gp.aSetter.placeShoe(this.worldX, this.worldY);
+            this.gp.aSetter.placeBeachBall(this.worldX, this.worldY);
             return;
         }
 

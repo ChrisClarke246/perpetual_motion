@@ -183,18 +183,30 @@ export class GamePanel {
 	            this.ui.displayTitleScreen(this.ctx);
 	            break;
 
-	        case this.GameState.PLAYING:
-				// Set background color based on game phase
+			case this.GameState.PLAYING:
+				let gradient;
 				switch (this.gamePhase) {
-				    case this.GamePhase.ONE: // Bright daylight sky
-				        this.ctx.fillStyle = '#85e7da';  // Light cyan sky, representing midday
-				        break;
-				    case this.GamePhase.TWO: // Sunset with orange and red hues
-				        this.ctx.fillStyle = '#FF4500';  // Orange-red color, representing sunset
-				        break;
-				    case this.GamePhase.THREE: // Twilight/dusk transitioning to dark
-				        this.ctx.fillStyle = '#483D8B';  // Dark slate blue, representing dusk
-				        break;
+					case this.GamePhase.ONE: // Bright daylight sky
+						gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
+						gradient.addColorStop(0, '#87CEEB'); // Sky blue (top of the sky)
+						gradient.addColorStop(0.5, '#B0E0E6'); // Light blue in the middle
+						gradient.addColorStop(1, '#E0FFFF'); // Almost white-blue at the horizon
+						this.ctx.fillStyle = gradient;
+						break;
+			
+					case this.GamePhase.TWO: // Sunset with orange and red hues
+						gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
+						gradient.addColorStop(0, '#ff9966'); // Orange top
+						gradient.addColorStop(1, '#ff5e62'); // Reddish bottom
+						this.ctx.fillStyle = gradient;
+						break;
+			
+					case this.GamePhase.THREE: // Twilight/dusk transitioning to dark
+						gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
+						gradient.addColorStop(0, '#2c3e50'); // Dusk blue
+						gradient.addColorStop(1, '#000000'); // Night black
+						this.ctx.fillStyle = gradient;
+						break;
 				}
 
 				// Draw the sky background by filling the entire canvas
